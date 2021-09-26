@@ -1,7 +1,7 @@
 <template>
-  <div>
-  money.vue  <Nav/>
-  </div>
+<Layout>
+  <p>money.vue</p>
+</Layout>
 
 </template>
 
@@ -14,6 +14,6 @@ export default class Money extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
