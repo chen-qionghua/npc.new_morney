@@ -1,15 +1,15 @@
 <template>
- <div class="nav">
+ <nav>
    <router-link to="/money" class="item" active-class="selected">
-     <Icon name="money"></Icon>
-     记账</router-link>|
+     <Icon name="money"/>
+     记账</router-link>
    <router-link to="/labels" class="item" active-class="selected">
-     <Icon name="label"></Icon>
-     标签</router-link>|
+     <Icon name="label"/>
+     标签</router-link>
    <router-link to="/statistics" class="item" active-class="selected">
-     <Icon name="statistic"></Icon>
+     <Icon name="statistic"/>
      统计</router-link>
- </div>
+ </nav>
 </template>
 
 <script lang="ts">
@@ -26,11 +26,11 @@ nav {
   flex-direction: row;
   font-size: 12px;
   > .item {
-    border: 1px solid red;
     padding: 2px 0;
     width: 33.3333%;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     .icon {
       width: 32px;
@@ -39,6 +39,7 @@ nav {
   }
   > .item.selected {
     color: $color-highlight;
+    fill:$color-highlight;
   }
 }
 </style>
