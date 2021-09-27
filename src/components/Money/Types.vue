@@ -8,20 +8,19 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Types extends Vue {
-type ='-' //-表示支出；+表示收入
+  @Prop() readonly value!:string ;//子组件不预先定义type，由money父组件（方便统一维护）或者用户定义（符合逻辑）
+  //！表示不赋予初始值
   selectType(type:string) {
   if(type !=='-' &&type!=='+') {
     throw new Error('type is unknown')
   }else {
-    this.type = type;
+    this.$emit('update:value',type)
   }
-
   }
-
 }
 </script>
 

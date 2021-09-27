@@ -27,6 +27,7 @@ toggle(tag:string) {
   }else {
     this.selectedTags.push(tag)
   }
+  this.$emit('update:value',this.selectedTags)//将获取到的选择作为参数发射给Money父组件
 }
 create() {
   const name = window.prompt('请输入标签名');
