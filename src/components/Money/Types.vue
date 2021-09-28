@@ -1,18 +1,19 @@
 <template>
   <div>
     <ul class="types">
-      <li :class="type ==='-' && 'selected'" @click="selectType('-')">支出</li>
-      <li :class="type ==='+' && 'selected'" @click="selectType('+')">收入</li>
+      <li :class="value ==='-' && 'selected'" @click="selectType('-')">支出</li>
+      <li :class="value ==='+' && 'selected'" @click="selectType('+')">收入</li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+import {Component, Prop, Vue} from 'vue-property-decorator';
 
 @Component
 export default class Types extends Vue {
-  @Prop() readonly value!:string ;//子组件不预先定义type，由money父组件（方便统一维护）或者用户定义（符合逻辑）
+
+  @Prop() readonly value!:string;//子组件不预先定义type，由money父组件（方便统一维护）或者用户定义（符合逻辑）
   //！表示不赋予初始值
   selectType(type:string) {
   if(type !=='-' &&type!=='+') {
