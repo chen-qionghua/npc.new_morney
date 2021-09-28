@@ -1,6 +1,6 @@
 <template>
 <Layout class-prefix="layout">
-  {{record}}
+  {{recordList}}
   <Tags :data-source.sync ='tags' @update:value ="onUpdateTags"/>
   <Notes @update:value ="onUpdateNotes"/>
   <Types :value.sync ="record.type" />
@@ -23,12 +23,13 @@ type Record = { //ts声明类型（复杂类型、多个类型）
   notes:string;
   type:string;
   amount:number;
+  createAt:Date;
 }
 @Component({  components: {Tags, Notes, Types, NumberPad},
 })
 export default class Money extends Vue{
       tags=['衣','食','住','行','拉粑粑'];
-      recordList:Record[] = [];
+      recordList:Record[] = JSON.parse(window.localStorage.getItem('recordList'));
       //将四个模块收集来的数据整合到record数组对象中
       record:Record = {  //ts调用时：声明类型且赋予初始值
         tags:[],
@@ -48,12 +49,12 @@ export default class Money extends Vue{
       }
       saveRecord() {
         const record2 = JSON.parse(JSON.stringify(this.record))
+        record2.createAt =new Date()
         this.recordList.push(record2)
-        console.log(this.recordList)
       }
       @Watch('recordList')
       onRecordListChange() {
-        window.localStorage.setItem('recordList',JSON.stringify(this.record))
+        window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
       }
 }
 </script>
