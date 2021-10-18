@@ -2,7 +2,9 @@
 <Layout class-prefix="layout">
   {{recordList}}
   <Tags :data-source.sync ='tags' @update:value ="onUpdateTags"/>
-  <Notes @update:value ="onUpdateNotes"/>
+  <Notes field-name="备注"
+         placeholder="请在这里输入备注"
+         @update:value ="onUpdateNotes"/>
   <Types :value.sync ="record.type" />
   <NumberPad @update:value ="onUpdateAmount" @submit="saveRecord"/>
 
@@ -26,8 +28,10 @@ const tagList = tagListModel.fetch();
 })
 export default class Money extends Vue{
       tags=tagList;
+  // eslint-disable-next-line no-undef
      recordList:RecordItem[] = recordList;
       //将四个模块收集来的数据整合到record数组对象中
+  // eslint-disable-next-line no-undef
       record:RecordItem = {  //ts调用时：声明类型且赋予初始值
         tags:[],
         notes:'',
