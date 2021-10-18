@@ -6,8 +6,11 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-    <FormItem field-name="标签名"
-            placeholder="请输入标签名"/>
+    <FormItem
+      :value="tag.name"
+      @update:value="update"
+      field-name="标签名"
+      placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
     <Button>删除标签</Button>
@@ -24,6 +27,7 @@ import Button from '@/components/Button.vue'
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
+  tag?:{id:string,name:string} = undefined;
   created() {
     //习惯将hash声明为id常量
     const id = this.$route.params.id;
@@ -32,12 +36,14 @@ export default class EditLabel extends Vue {
     //如何获取id（hash）所对应的tag
     const tag =tags.filter(t => t.id === id)[0] //filter方法返回值为数组，必须后加[0]
     if(tag) {
-      console.log(tag)
+      this.tag = tag;
     }else {
       this.$router.replace('/404')//为防止用户404回退不了故用replace替代push
     }
   }
-
+update(name:string) {
+    console.log(name)
+}
 }
 </script>
 
