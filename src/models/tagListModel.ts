@@ -1,3 +1,5 @@
+import createId from '@/lib/createId'
+
 const localStorageKeyName = 'tagList'
 type tags = {
   id:string;
@@ -7,7 +9,7 @@ type TagListModel = {
   data:tags[],
   fetch:() => tags[],
   create:(name:string) => 'success' | 'duplicated', //联合类型，字符串的子类型,方便后续类型检查（表单校验）
-  update:(id:string,name:stirng) =>'success' | 'not found' |'duplicated'
+  update:(id:string,name:string) =>'success' | 'not found' |'duplicated'
   remove:(id:string) =>boolean
   save:() => void
 }
@@ -26,7 +28,8 @@ const tagListModel:TagListModel = {
     if(names.indexOf(name)>=0) {
       return 'duplicated'
     }
-    this.data.push({id:name,name:name});
+    const id =createId().toString();
+    this.data.push({id:id,name:name});
     this.save();   //注意保存
     return 'success';
       //习惯将创建的东西 return回去
