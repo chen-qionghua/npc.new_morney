@@ -7,6 +7,8 @@ type TagListModel = {
   data:tags[],
   fetch:() => tags[],
   create:(name:string) => 'success' | 'duplicated', //联合类型，字符串的子类型,方便后续类型检查（表单校验）
+  update:(id:string,name:stirng) =>'success' | 'not found' |'duplicated'
+  remove:(id:string) =>boolean
   save:() => void
 }
 const tagListModel:TagListModel = {
@@ -28,6 +30,35 @@ const tagListModel:TagListModel = {
     this.save();   //注意保存
     return 'success';
       //习惯将创建的东西 return回去
+  },
+update(id,name) {
+   const idList = this.data.map(item =>item.name)
+  if(idList.indexOf(id>=0)){
+    const names = this.data.map(item => item.name)
+    if(names.indexOf(name)>=0) {
+      return 'duplicated'
+    }else {
+      const tag = this.data.filter(tag => tag.id === id)[0]
+      tag.name = name;
+      tag.id = name
+      this.save()
+      return 'success'
+    }
+  }
+    else{
+   return 'not found'
+  }
+},
+  remove(id:string) {
+    let index = -1
+    for(let i = 0;i < this.data.length;i++){
+      if(this.data[i].id === id) {
+        index =i;
+      }
+    }
+    this.data.splice(index,1);
+    this.save()
+    return true;
   },
   save() {
     window.localStorage.setItem('localStorageKeyName',JSON.stringify(this.data))

@@ -6,7 +6,6 @@
     <input type="text"
            :value="value"
            @input="onValueChanged($event.target.value)"
-           v-model="value"
            :placeholder="this.placeholder">
 
   </label>
@@ -23,7 +22,7 @@ export default class FormItem extends Vue {
 @Prop({required:true})fieldName!:string;
 @Prop()placeholder?:string;
   @Watch('value')
-  onValueChanged(value) {
+  onValueChanged(value:string) {
     this.$emit('update:value',value)
   }
 }

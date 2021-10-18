@@ -13,7 +13,7 @@
       placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-    <Button>删除标签</Button>
+    <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -42,7 +42,14 @@ export default class EditLabel extends Vue {
     }
   }
 update(name:string) {
-    console.log(name)
+    if(this.tag){
+      tagListModel.update(this.tag.id,name)
+    }
+}
+remove() {
+    if(this.tag) {
+      tagListModel.remove(this.tag.id)
+    }
 }
 }
 </script>
