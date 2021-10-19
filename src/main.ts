@@ -11,7 +11,9 @@ Vue.config.productionTip = false
 Vue.component('Nav',Nav)
 Vue.component('Layout', Layout)
 Vue.component('Icon',Icon)
-
+window.findTag = (id) => {
+  return window.tagList.filter(t => t.id === id)[0] //filter方法返回值为数组，必须后加[0]
+}
 window.tagList = tagListModel.fetch()
 window.createTag =(name:string) => {
   const message = tagListModel.create(name);
