@@ -21,6 +21,9 @@ window.createTag =(name:string) => {
     window.alert('添加成功')
   }
 }
+window.remove = (id:string) => {
+  return tagListModel.remove(id)
+}
 
 
 new Vue({

@@ -24,7 +24,7 @@ const tagListModel:TagListModel = {
     return 'success';
       //习惯将创建的东西 return回去
   },
-update(id,name) {
+  update(id,name) {
    const idList = this.data.map(item =>item.id);
   if(idList.indexOf(id)>=0){
     const names = this.data.map(item => item.name)

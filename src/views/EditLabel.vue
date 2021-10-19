@@ -48,7 +48,7 @@ update(name:string) {
 }
 remove() {
     if(this.tag) {
-      tagListModel.remove(this.tag.id)
+      window.remove(this.tag.id)
       this.$router.back()
     }
 }
