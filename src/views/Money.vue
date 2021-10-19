@@ -23,12 +23,11 @@ import {recordListModel} from '@/models/recordListModel'
 import {tagListModel} from '@/models/tagListModel'
 
 const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
 
 @Component({  components: {Tags, FormItem, Types, NumberPad},
 })
 export default class Money extends Vue{
-      tags=tagList;
+      tags= window.tagList;
   // eslint-disable-next-line no-undef
      recordList:RecordItem[] = recordList;
       //将四个模块收集来的数据整合到record数组对象中

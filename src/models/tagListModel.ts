@@ -1,18 +1,8 @@
 import createId from '@/lib/createId'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const localStorageKeyName = 'tagList'
-type tags = {
-  id:string;
-  name:string
-}
-type TagListModel = {
-  data:tags[],
-  fetch:() => tags[],
-  create:(name:string) => 'success' | 'duplicated', //联合类型，字符串的子类型,方便后续类型检查（表单校验）
-  update:(id:string,name:string) =>'success' | 'not found' |'duplicated'
-  remove:(id:string) =>boolean
-  save:() => void
-}
+
 const tagListModel:TagListModel = {
   data:[],
   fetch(){
@@ -35,8 +25,8 @@ const tagListModel:TagListModel = {
       //习惯将创建的东西 return回去
   },
 update(id,name) {
-   const idList = this.data.map(item =>item.name)
-  if(idList.indexOf(id>=0)){
+   const idList = this.data.map(item =>item.id);
+  if(idList.indexOf(id)>=0){
     const names = this.data.map(item => item.name)
     if(names.indexOf(name)>=0) {
       return 'duplicated'
