@@ -22,6 +22,7 @@
 import {Component, Vue} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue'
 import Button from '@/components/Button.vue'
+import store from '@/store/index2'
 @Component({
   components: {Button, FormItem}
 })
@@ -32,7 +33,7 @@ export default class EditLabel extends Vue {
     //习惯将hash声明为id常量
     const id =this.$route.params.id
     //如何获取id（hash）所对应的tag
-    const tag = window.findTag(id);
+    const tag = store.findTag(id);
     if(tag) {
       this.tag = tag;
     }else {
@@ -41,12 +42,12 @@ export default class EditLabel extends Vue {
   }
 update(name:string) {
     if(this.tag){
-      window.update(this.tag.id,name)
+      store.update(this.tag.id,name)
     }
 }
 remove() {
     if(this.tag) {
-      window.remove(this.tag.id)
+      store.remove(this.tag.id)
       this.$router.back()
     }
 }

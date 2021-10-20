@@ -19,15 +19,14 @@ import Types from '@/components/Money/Types.vue';
 import FormItem from '@/components/Money/FormItem.vue';
 import Tags from '@/components/Money/Tags.vue';
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {recordListModel} from '@/models/recordListModel'
-const recordList = recordListModel.fetch();
+import store from '@/store/index2'
 
 @Component({  components: {Tags, FormItem, Types, NumberPad},
 })
 export default class Money extends Vue{
-      tags= window.tagList;
+      tags= store.tagList;
   // eslint-disable-next-line no-undef
-     recordList:RecordItem[] = recordList;
+     recordList:RecordItem[] = store.recordList;
       //将四个模块收集来的数据整合到record数组对象中
   // eslint-disable-next-line no-undef
       record:RecordItem = {  //ts调用时：声明类型且赋予初始值
@@ -47,11 +46,7 @@ export default class Money extends Vue{
         this.record.amount = parseFloat(value)
       }
       saveRecord() {
-        recordListModel.create(this.record)
-      }
-      @Watch('recordList')
-      onRecordListChange() {
-        recordListModel.save(this.recordList)
+        store.createRecord(this.record)
       }
 }
 </script>
