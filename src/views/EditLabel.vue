@@ -42,12 +42,12 @@ export default class EditLabel extends Vue {
   }
 update(name:string) {
     if(this.tag){
-      store.update(this.tag.id,name)
+      store.updateTag(this.tag.id,name)
     }
 }
 remove() {
     if(this.tag) {
-      store.remove(this.tag.id)
+      store.removeTag(this.tag.id)
       this.$router.back()
     }
 }
