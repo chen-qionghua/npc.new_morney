@@ -3,7 +3,7 @@
     <div class="navBar">
       <Icon class="leftIcon" name="left" @click="goBack"/>
         <span class="title">编辑标签</span>
-      <span class="rightIcon"></span>
+      <span class="rightIcon"/>
     </div>
     <div class="form-wrapper">
     <FormItem
@@ -22,7 +22,6 @@
 import {Component, Vue} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue'
 import Button from '@/components/Button.vue'
-import store from '@/store/index2'
 @Component({
   components: {Button, FormItem}
 })
@@ -31,24 +30,25 @@ export default class EditLabel extends Vue {
 
   created() {
     //习惯将hash声明为id常量
-    const id =this.$route.params.id
     //如何获取id（hash）所对应的tag
-    const tag = store.findTag(id);
-    if(tag) {
-      this.tag = tag;
-    }else {
+    //TODO
+    // this.tag = store.findTag(this.$route.params.id);
+    if (!this.tag) {
       this.$router.replace('/404')//为防止用户404回退不了故用replace替代push
     }
   }
 update(name:string) {
     if(this.tag){
-      store.updateTag(this.tag.id,name)
+      //TODO
+      // store.updateTag(this.tag.id,name)
     }
 }
 remove() {
     if(this.tag) {
-      store.removeTag(this.tag.id)
-      this.$router.back()
+      //TODO
+      return
+      // store.removeTag(this.tag.id)
+      // this.$router.back()
     }
 }
 goBack() {
