@@ -27,7 +27,6 @@ const tagStore= {
     window.alert('添加成功')
     return 'success';
     //习惯将创建的东西 return回去
-
   },
 //删
   removeTag (id:string)  {
