@@ -2,7 +2,7 @@
   <Layout>
     <div class="tags">
       <router-link class="tag"
-                   v-for="tag in tags" :key="tag.id"
+                   v-for="tag in tagList" :key="tag.id"
                     :to = "`/labels/edit/${tag.id}`">
 <!--        点击标签跳转到对应id，此处id为tag的id，恰好照应hash的id-->
 
@@ -21,22 +21,22 @@
 
 import {Component, Vue} from 'vue-property-decorator';
 import Button from '@/components/Button.vue'
+import {mixins} from 'vue-class-component'
+import {TagHelper} from '@/mixins/TagHelper'
 
 @Component({
-  components: {Button}
-})
-export default class Labels extends Vue {
-  // TODO
-  tags =[]
-  // tags = store.tagList;//data 完全抽离到model中处理，此处tags只负责渲染更新
-  createTag(){
-    const name =window.prompt('请输入标签名')
-    if(name){
-      // TODO
-
-      // store.createTag(name)
+  components: {Button},
+  computed:{
+    tagList() {
+      return this.$store.state.tagList
     }
+  },
+})
+export default class Labels extends mixins(TagHelper) {
+  beforeCreate() {
+    this.$store.commit('fetchTags')
   }
+
 
 }
 </script>
