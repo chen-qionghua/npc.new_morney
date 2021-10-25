@@ -22,13 +22,11 @@ import {Component, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
-  computed: {
-    recordList() {
-      return this.$store.recordList;
-    }
-  }
 })
 export default class Money extends Vue{
+  get recordList() {
+    return this.$store.state.recordList;
+  }
   // eslint-disable-next-line no-undef
       //将四个模块收集来的数据整合到record数组对象中
   // eslint-disable-next-line no-undef

@@ -2,7 +2,7 @@
   <Layout>
     <div class="tags">
       <router-link class="tag"
-                   v-for="tag in tagList" :key="tag.id"
+                   v-for="tag in tags" :key="tag.id"
                     :to = "`/labels/edit/${tag.id}`">
 <!--        点击标签跳转到对应id，此处id为tag的id，恰好照应hash的id-->
 
@@ -26,13 +26,11 @@ import {TagHelper} from '@/mixins/TagHelper'
 
 @Component({
   components: {Button},
-  computed:{
-    tagList() {
-      return this.$store.state.tagList
-    }
-  },
 })
 export default class Labels extends mixins(TagHelper) {
+  get tags() {
+    return this.$store.state.tagList
+  }
   beforeCreate() {
     this.$store.commit('fetchTags')
   }
