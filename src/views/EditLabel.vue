@@ -22,16 +22,20 @@
 import {Component, Vue} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue'
 import Button from '@/components/Button.vue'
+import store from '@/store'
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
+
 })
 export default class EditLabel extends Vue {
-  tag?: {id:string,name:string } = undefined;
-
+  get tag() {
+    return this.$store.state.currentTag;
+  }
   created() {
+    const id = this.$route.params.id;
+    store.commit('setCurrentTag',id)
     //习惯将hash声明为id常量
     //如何获取id（hash）所对应的tag
-    //TODO
     // this.tag = store.findTag(this.$route.params.id);
     if (!this.tag) {
       this.$router.replace('/404')//为防止用户404回退不了故用replace替代push
