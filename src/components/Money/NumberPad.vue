@@ -29,7 +29,7 @@ export default class NumberPad extends Vue {
   inputContent(event:MouseEvent) {
     const button =(event.target as  HTMLButtonElement)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const input = button.textContent!;
+    const input = button.textContent!;  //vue中的类型声明用 断言 as 或者！
 
     if (this.output.length ===16){return}
     if(this.output ==='0') {
