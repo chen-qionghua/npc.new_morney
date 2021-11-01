@@ -1,3 +1,4 @@
+//此文件下为全局声明
 type RecordItem = { //ts声明类型（复杂类型、多个类型）
   tags:Tag[];
   notes:string;
@@ -27,3 +28,4 @@ interface window {
   createRecord:(record:RecordItem[]) =>void
 
 }
+

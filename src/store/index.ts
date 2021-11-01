@@ -7,12 +7,12 @@ import router from '@/router'
 
 Vue.use(Vuex);// 把 store 绑定到 Vue.prototype.$store = store
 
-type RootState= {
+//注意：类型声明后需要导出才可用
+export type RootState= {
   recordList:RecordItem[],
   tagList:Tag[]
   currentTag?:Tag
 }
-
 const store = new Vuex.Store({
   state: {
     recordList:[],
