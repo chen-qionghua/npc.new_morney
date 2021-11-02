@@ -8,14 +8,11 @@ import router from '@/router'
 Vue.use(Vuex);// 把 store 绑定到 Vue.prototype.$store = store
 
 //注意：类型声明后需要导出才可用
-export type RootState= {
-  recordList:RecordItem[],
-  tagList:Tag[]
-  currentTag?:Tag
-}
 const store = new Vuex.Store({
   state: {
     recordList:[],
+    createRecordError:null,
+    createTagError:null,
     tagList:[],
     currentTag:undefined
   } as RootState,
@@ -58,8 +55,8 @@ const store = new Vuex.Store({
       state.recordList= JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
       //返回值也需要指定类型，可强制指定
     },
-    createRecord(state,record) {
-      const record2: RecordItem = clone(record)
+    createRecord(state,record:RecordItem) {
+      const record2 = clone(record)
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       console.log(state.recordList);
@@ -72,20 +69,27 @@ const store = new Vuex.Store({
     },
     fetchTags(state) {
       state.tagList=JSON.parse(window.localStorage.getItem('tagList') || '[]') ;
+      if(!state.tagList || state.tagList.length ===0) {
+        store.commit('createTag','衣');
+        store.commit('createTag','食');
+        store.commit('createTag','住');
+        store.commit('createTag','行');
+      }
     },
-    createTag(state,name:string)  {
+    createTag(state,name:string) {
+      state.createTagError = null; //注意函数调用栈执行顺序；每次进入都需要置空
+
       //创建标签名的前提是拿到data，即用户输入的标签名，从fetch获取
       //此时data为数组对象，如this.data = [{id:1,name:2},{id:2,name:2}]，
       //需要拿到其对象中的属性name的值，使用 map 方法收集names
       const names = state.tagList.map(item => item.name);
-      if(names.indexOf(name)>=0) {
-        window.alert('标签名重复')
-      }else {
+      if (names.indexOf(name) >= 0) {
+        state.createTagError = new Error('tag name duplicated') //取消对alert的依赖，解耦
+        return
+      } else {
         const id = createId().toString();
-        state.tagList.push({id: id, name: name});
-        store.commit('saveTags');   //注意保存
-        window.alert('添加成功')
-        //习惯将创建的东西 return回去
+        state.tagList.push({id,name:name})
+        store.commit('saveTags')
       }
     },
     saveTags(state){

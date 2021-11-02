@@ -18,3 +18,9 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+window.onload = function () {  //防止不同移动终端页面BUG
+  setTimeout(function () {
+    window.scrollTo(0,1000);
+  },0)
+}
+

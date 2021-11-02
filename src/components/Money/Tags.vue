@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {Component,Vue} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import {TagHelper} from '@/mixins/TagHelper'
 import {mixins} from 'vue-class-component'
 

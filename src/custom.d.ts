@@ -28,4 +28,11 @@ interface window {
   createRecord:(record:RecordItem[]) =>void
 
 }
+type RootState= {
+  recordList:RecordItem[],
+  createRecordError:null|Error,
+  createTagError:null|Error,
+  tagList:Tag[],
+  currentTag?:Tag
+}
 
