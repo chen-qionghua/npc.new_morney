@@ -3,7 +3,7 @@
     <Tabs
       class-prefix="type"
       :data-source="recordTypeList" :value.sync="type"/>
-
+<ECharts :option="x" class="charts"/>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
@@ -28,10 +28,29 @@ import Tabs from '@/components/Tabs.vue'
 import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+} from "echarts/components";
+import ECharts, { THEME_KEY } from "vue-echarts";
+
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+]);
+
 @Component({
-  components:{Tabs}
+  components:{Tabs,ECharts}
 })
 export default class Statistics extends Vue {
+
   beautify(string:string) {
     const day =dayjs(string)
     const now = dayjs()
@@ -52,6 +71,54 @@ export default class Statistics extends Vue {
   }
   get recordList() {
     return (this.$store.state as RootState).recordList;
+  }
+  get x() {
+    return {
+      option: {
+        title: {
+          text: "Traffic Sources",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: [
+            "Direct",
+            "Email",
+            "Ad Networks",
+            "Video Ads",
+            "Search Engines"
+          ]
+        },
+        series: [
+          {
+            name: "Traffic Sources",
+            type: "pie",
+            radius: "55%",
+            center: ["50%", "60%"],
+            data: [
+              {value: 335, name: "Direct"},
+              {value: 310, name: "Email"},
+              {value: 234, name: "Ad Networks"},
+              {value: 135, name: "Video Ads"},
+              {value: 1548, name: "Search Engines"}
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      }
+    }
+
   }
   get groupedList() {
    //[
@@ -89,6 +156,9 @@ export default class Statistics extends Vue {
 </script>
 
 <style scoped lang="scss">
+.charts {
+  height: 400px;
+}
 .noResult{
   padding: 16px;
   text-align: center;
