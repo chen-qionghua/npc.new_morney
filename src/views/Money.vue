@@ -6,6 +6,12 @@
          placeholder="请在这里输入备注"
             :value.sync="record.notes"/>
   </div>
+  <div class="createAt">
+    <FormItem field-name="日期"
+              type="datetime-local"
+              placeholder="请在这里输入日期"
+              :value.sync="record.createdAt"/>
+  </div>
   <Tabs :data-source="recordTypeList"
         :value.sync="record.type"/>
   <NumberPad @update:value ="onUpdateAmount" @submit="saveRecord"/>
@@ -36,7 +42,8 @@ export default class Money extends Vue{
         tags:[],
         notes:'',
         type:'-',
-        amount:0
+        amount:0,
+        createdAt:new Date().toISOString()
       };
   recordTypeList=recordTypeList;
       created() {
