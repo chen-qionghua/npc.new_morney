@@ -64,27 +64,38 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
   }
 
-  get x() {
+  get y() {
     const today = new Date();
     const array = [];
     for(let i = 0;i<=29;i++) {
       //this.recordList = [{date:7.3,value:100},{date:7.2,value:200}]
       const dateString =day(today).subtract(i,'day').format('YYYY-MM-DD')
+      const found =_.find(this.groupedList,{title:dateString})
       array.push({
         date:dateString,
-        value:_.find(this.recordList,{createdAt:dateString})?.amount
+        value: found ? found.total:0
+        //从 this.recordList 数组中找 createdAt 为 dateString 的对象，返回对象或undefined
       })
     }
-    console.log(array)
-    console.log(this.recordList.map(r => _.pick(r, ['createdAt','amount'])))
+    array.sort((a,b) => {
+      if(a.date > b.date) {
+        return 1;
+      }else if(a.date === b.date) {
+        return 0
+      }else {
+        return -1
+      }
+    })
+    return array
+  }
+
+  get x() {
+    const keys = this.y.map(item => item.date)  //在array中查找每一项item，对每一项item获取其date，组成一个新数组
+    const values = this.y.map(item => item.value)
     return {
       xAxis: {
         type: 'category',
-        data: [
-          '1', '2', '3', '4', '5', '6', '7','8','9','10',
-          '11', '12', '13', '14', '15', '16', '17','18','19','20',
-          '21', '22', '23', '24', '25', '26', '27','28','29','30',
-        ],
+        data: keys,
         axisTick:{alignWithLabel:true},
         axisLine:{lineStyle:{color:'#666'}}
       },
@@ -107,12 +118,7 @@ export default class Statistics extends Vue {
           symbolSize:15,
           symbol:'circle',
           itemStyle:{borderWidth:1,color:'#666',borderColor:'#666'},
-          data: [
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,1,2
-          ],
+          data: values,
           type: 'line'
 
         }
@@ -131,7 +137,9 @@ export default class Statistics extends Vue {
       .sort((a,b) => dayjs(b.createdAt).valueOf()-dayjs(a.createdAt).valueOf())
     if(newList.length === 0) {return[]}
     type Result ={title:string,total?:number,items:RecordItem[]}[]
+
     const result:Result =[{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
+
     for(let i = 1;i<newList.length;i++) {
       const current = newList[i];
       const last = result[result.length-1]
@@ -146,6 +154,7 @@ export default class Statistics extends Vue {
     })
     return result
   }
+
   beforeCreate() {
     this.$store.commit('fetchRecords')
   }
