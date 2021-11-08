@@ -31,7 +31,8 @@ import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs'
 import clone from '@/lib/clone'
 import Chart from '@/components/Chart.vue'
-
+import _ from 'lodash'
+import day from 'dayjs'
 @Component({
   components:{Tabs,Chart}
 })
@@ -39,6 +40,7 @@ export default class Statistics extends Vue {
   mounted() {
     const div = this.$refs.chartWrapper
     div.scrollLeft = div.scrollWidth
+
   }
   beautify(string:string) {
     const day =dayjs(string)
@@ -63,6 +65,18 @@ export default class Statistics extends Vue {
   }
 
   get x() {
+    const today = new Date();
+    const array = [];
+    for(let i = 0;i<=29;i++) {
+      //this.recordList = [{date:7.3,value:100},{date:7.2,value:200}]
+      const dateString =day(today).subtract(i,'day').format('YYYY-MM-DD')
+      array.push({
+        date:dateString,
+        value:_.find(this.recordList,{createdAt:dateString})?.amount
+      })
+    }
+    console.log(array)
+    console.log(this.recordList.map(r => _.pick(r, ['createdAt','amount'])))
     return {
       xAxis: {
         type: 'category',
