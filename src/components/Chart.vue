@@ -13,8 +13,6 @@ export default class Chart extends Vue {
 @Prop() option:EChartOption;
 
 mounted() {
-  console.log(echarts)
-
   if(this.option === undefined) {
     return console.error('option为空')
   }else {

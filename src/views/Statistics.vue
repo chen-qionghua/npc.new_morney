@@ -3,7 +3,9 @@
     <Tabs
       class-prefix="type"
       :data-source="recordTypeList" :value.sync="type"/>
-<Chart :option="x" class="charts"/>
+    <div class="chart-wrapper" ref="chartWrapper">
+<Chart :option="x" class="chart"/>
+    </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
@@ -34,7 +36,10 @@ import Chart from '@/components/Chart.vue'
   components:{Tabs,Chart}
 })
 export default class Statistics extends Vue {
-
+  mounted() {
+    const div = this.$refs.chartWrapper
+    div.scrollLeft = div.scrollWidth
+  }
   beautify(string:string) {
     const day =dayjs(string)
     const now = dayjs()
@@ -65,14 +70,29 @@ export default class Statistics extends Vue {
           '1', '2', '3', '4', '5', '6', '7','8','9','10',
           '11', '12', '13', '14', '15', '16', '17','18','19','20',
           '21', '22', '23', '24', '25', '26', '27','28','29','30',
-        ]
+        ],
+        axisTick:{alignWithLabel:true},
+        axisLine:{lineStyle:{color:'#666'}}
       },
-
+      tooltip:{
+        show:true,
+        triggerOn:'click',
+        position:'top',
+        formatter:'{c}'
+      },
+      grid: {
+        left:10,
+        right:10
+      },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        show:false
       },
       series: [
         {
+          symbolSize:15,
+          symbol:'circle',
+          itemStyle:{borderWidth:1,color:'#666',borderColor:'#666'},
           data: [
             150, 230, 224, 218, 135, 147, 260,
             150, 230, 224, 218, 135, 147, 260,
@@ -121,9 +141,12 @@ export default class Statistics extends Vue {
 </script>
 
 <style scoped lang="scss">
-.charts {
-  max-width: 100%;
+.chart {
+  width: 430%;
   height: 400px;
+  &-wrapper {
+    overflow: auto;
+  }
 }
 .noResult{
   padding: 16px;
